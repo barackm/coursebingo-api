@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_action :authorize_request, only: [:edit, :update, :show, :destory]
+  before_action :authorize_request, only: [:edit, :update, :show, :destory, :index]
+  before_action :authorize_admin, only: [:index]
 
   def index
-    render json: User.all
+    render json: {data: User.all, message: 'Users found successfully'}, status: 200
   end
 
   def show
