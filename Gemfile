@@ -26,7 +26,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # gem 'rack-cors'
 
 gem 'active_model_serializers', '~> 0.10.2'
-gem 'bcrypt'
+gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 
 group :development, :test do

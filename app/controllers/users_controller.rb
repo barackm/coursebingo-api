@@ -15,11 +15,17 @@ class UsersController < ApplicationController
   def create
     user = User.find_by(email: params[:user][:email])
     if user.nil?
-      user = User.new(user_params)
-      if user.save
-        render json: user, status: 201
+      if params[:password] != params[:password_confirmation]
+        render json: {error: "Passwords do not match"}, status: 400
       else
-        render json: {error: user.errors}, status: 422
+        user = User.new(user_params)
+        user.email.downcase!
+
+        if user.save
+          render json: user, status: 201
+        else
+          render json: {error: user.errors}, status: 422
+        end
       end
     else 
       render json: {error: "User already exists with email #{params[:user][:email]}"}, status: 422
@@ -49,9 +55,9 @@ class UsersController < ApplicationController
     end
   end
 
-  private 
+  # private 
 
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :avatar, :password, :password_confirmation)
-    end
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :avatar, :password, :password_confirmation)
+  end
 end
