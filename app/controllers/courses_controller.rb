@@ -21,7 +21,7 @@ class CoursesController < ApplicationController
       if course.save
         render json: course, status: 200
       else
-        render json: { error: course.errors }, status: 400
+        render json: { error: course.errors.full_messages[0] }, status: 400
       end
     end
   end
@@ -37,7 +37,7 @@ class CoursesController < ApplicationController
       elsif course.update(course_params)
         render json: course, status: 200
       else
-        render json: { error: 'Course could not be updated' }, status: 400
+        render json: { error: course.errors.full_messages[0] }, status: 400
       end
     end
   end
