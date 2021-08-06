@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
   before_action :check_course_data, only: %i[create update]
 
   def index
-    render json: { data: Course.all, message: 'Courses found successfully' }, status: :ok
+    render json: Course.all, status: :ok
   end
 
   def show
@@ -11,7 +11,7 @@ class CoursesController < ApplicationController
     if course.nil?
       render json: { message: "Course not found with ID #{params[:id]}" }, status: 404
     else
-      render json: { data: course, message: 'Course found successfully' }, status: :ok
+      render json: course, status: :ok
     end
   end
 
@@ -22,7 +22,7 @@ class CoursesController < ApplicationController
     else
       course = user.courses.build(course_params)
       if course.save
-        render json: { data: course, message: 'Course created successfully' }, status: 200
+        render json: course, status: 200
       else
         render json: { message: course.errors.full_messages[0] }, status: 400
       end
@@ -38,7 +38,7 @@ class CoursesController < ApplicationController
       if user.nil?
         render json: { message: "User not found with ID #{course_params[:author_id]}" }, status: 404
       elsif course.update(course_params)
-        render json: { data: course, message: 'Course updated successfully' }, status: 200
+        render json: course, status: 200
       else
         render json: { message: course.errors.full_messages[0] }, status: 400
       end
@@ -50,7 +50,7 @@ class CoursesController < ApplicationController
     if course.nil?
       render json: { message: "Course not found with ID #{params[:id]}" }, status: 404
     elsif course.destroy
-      render json: { message: 'Course deleted successfully', data: course }, status: 200
+      render json: course, status: 200
     else
       render json: { message: 'Course could not be deleted' }, status: 400
     end

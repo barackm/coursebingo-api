@@ -8,7 +8,7 @@ class FavouritesController < ApplicationController
       render json: { message: "User not found with ID #{params[:user_id]}" }, status: 404
     else
       favourites = user.favorite_courses
-      render json: { data: favourites, message: 'Favourites found successfully' }, status: 200
+      render json: favourites, status: 200
     end
   end
 
@@ -25,7 +25,7 @@ class FavouritesController < ApplicationController
           render json: { message: "Course not found with ID #{favourite_params[:course_id]}" },
                  status: 404
         elsif favourites.save
-          render json: { data: favourites.course, message: 'Favourite created successfully' }, status: 200
+          render json: favourites.course, status: 200
         else
           render json: { message: favourites.errors.full_messages[0] }, status: 500
         end
@@ -41,7 +41,7 @@ class FavouritesController < ApplicationController
       render json: { message: "Favourite not found with ID #{params[:id]}" }, status: 404
     else
       favourite.destroy
-      render json: { data: favourite.course, message: 'Favourite removed successfully' }, status: 200
+      render json: favourite.course, status: 200
     end
   end
 
