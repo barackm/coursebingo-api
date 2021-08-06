@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     if user.nil?
       render json: { message: "User not found with ID #{params[:id]}"}, status: 404 
     else
-      render json:{ data: user, message: 'User found successfully' }, status: 200,
+      render json:{ data: user, message: 'User found successfully' }, status: 200
     end
   end
 
