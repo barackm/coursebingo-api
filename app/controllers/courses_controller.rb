@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
   before_action :authorize_request, only: %i[create update destroy]
+  before_action :check_course_data, only: %i[create update]
 
   def index
     render json: { data: Course.all, message: 'Courses found successfully' }, status: :ok
@@ -59,5 +60,11 @@ class CoursesController < ApplicationController
 
   def course_params
     params.require(:course).permit(:name, :description, :duration, :price, :image, :author_id)
+  end
+
+  def check_course_data
+    if params[:name].nil?
+      return render json: { message: 'No course data provided' }, status: 422
+    end
   end
 end

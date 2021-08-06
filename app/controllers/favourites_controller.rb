@@ -1,5 +1,6 @@
 class FavouritesController < ApplicationController
   before_action :authorize_request
+  before_action :check_favourite_data, only: [:create]
 
   def index
     user ||= User.find_by(id: params[:user_id])
@@ -48,5 +49,11 @@ class FavouritesController < ApplicationController
 
   def favourite_params
     params.require(:favourite).permit(:course_id)
+  end
+
+  def check_favourite_data
+    if params[:course_id].nil?
+      return render json: { message: 'No favourite data provided' }, status: 422
+    end
   end
 end

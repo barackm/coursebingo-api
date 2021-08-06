@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authorize_request, only: [:edit, :update, :show, :destory, :index]
   before_action :authorize_admin, only: [:index]
+  before_action :check_user_data, only: [:create, :update]
 
   def index
     render json: {data: User.all, message: 'Users found successfully'}, status: 200
@@ -16,14 +17,16 @@ class UsersController < ApplicationController
   end
 
   def create
+    
     user ||= User.find_by(email: params[:user][:email])
     if user.nil?
       if params[:password] == params[:password_confirmation]
         user = User.new(user_params)
-        user.email.downcase!
-        user_token = JsonWebToken.encode({ first_name: user.first_name, last_name: user.last_name, email: user.email,
-                                           id: user.id, avatar: user.avatar, is_admin: user.is_admin })
+        user.email.downcase! if user.email
+        
         if user.save
+          user_token = JsonWebToken.encode({ first_name: user.first_name, last_name: user.last_name, email: user.email,
+          id: user.id, avatar: user.avatar, is_admin: user.is_admin })
           render json: { data: user_token, message: 'User created successfully' }, status: 201
         else
           render json: { message: user.errors.full_messages[0] }, status: 422
@@ -57,9 +60,16 @@ class UsersController < ApplicationController
     end
   end
 
-  # private
+  private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :avatar, :password, :password_confirmation)
+      params.require(:user).permit(:first_name, :last_name, :email, :avatar, :password, :password_confirmation)
   end
+
+  def check_user_data
+    if params[:user].empty?
+      return render json: { message: 'No user data provided' }, status: 422
+    end
+  end
+
 end
