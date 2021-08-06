@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
 
     if user
       user_token = JsonWebToken.encode({ first_name: user.first_name, last_name: user.last_name, email: user.email,
-        id: user.id, avatar: user.avatar, is_admin: user.is_admin })
+                                         id: user.id, avatar: user.avatar, is_admin: user.is_admin })
       render json: { message: 'Authenticated', data: user_token }, status: :ok
     else
       render json: { message: 'Invalid email or password' }, status: :not_found
