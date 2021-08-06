@@ -1,4 +1,6 @@
 class FavouritesController < ApplicationController
+  before_action :authorize_request
+
   def index
     user ||= User.find_by(id: params[:user_id])
     if user.nil?
@@ -9,7 +11,7 @@ class FavouritesController < ApplicationController
     end
   end
 
-  def create
+  def create # rubocop:disable Metrics/PerceivedComplexity
     user ||= User.find_by(id: params[:user_id])
     if user.nil?
       render json: { message: "User not found with ID #{params[:user_id]}" }, status: 404
