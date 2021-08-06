@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authorize_request
+  before_action :authorize_request, only: [:edit, :update, :show, :destory]
 
   def index
     render json: User.all
