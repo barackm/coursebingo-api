@@ -24,7 +24,7 @@ class FavouritesController < ApplicationController
         elsif favourites.save
           render json: favourites.course, status: 200
         else
-          render json: { error: 'Failed to save favourite' }, status: 500
+          render json: { error: favourites.errors }, status: 500
         end
       else
         render json: { error: 'Favourite already exists' }, status: 500

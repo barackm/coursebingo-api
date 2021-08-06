@@ -21,7 +21,7 @@ class CoursesController < ApplicationController
       if course.save
         render json: course, status: 200
       else
-        render json: { error: 'Course could not be created' }, status: 400
+        render json: { error: course.errors }, status: 400
       end
     end
   end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  before_create :set_user_not_admin
+
   has_secure_password
   has_many :courses, foreign_key: :author_id
   has_many :favourites
@@ -8,4 +10,8 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { minimum: 13, maximum: 250 }
   validates :password, presence: true, length: { minimum: 6, maximum: 250 }
   validates :password_confirmation, presence: true, length: { minimum: 6, maximum: 250 }
+
+  def set_user_not_admin
+    self.is_admin = false
+  end
 end
