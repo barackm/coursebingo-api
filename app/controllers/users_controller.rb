@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authorize_request, only: [:create, :update, :destroy]
+
   def index
     render json: User.all
   end

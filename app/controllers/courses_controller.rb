@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :authenticate_request, only: [:create, :update, :destroy]
+  before_action :authorize_request, only: [:create, :update, :destroy]
 
   def index
     render json: { data: Course.all, message: 'Courses found successfully' }, status: :ok
