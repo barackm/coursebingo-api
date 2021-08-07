@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def show
     user ||= User.find_by(id: params[:id])
     if user.nil?
-      render json: { error: "User not found with ID #{params[:id]}" }, status: 404
+      render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     else
       render json: user, status: 200
     end
@@ -28,34 +28,34 @@ class UsersController < ApplicationController
                                              id: user.id, avatar: user.avatar, is_admin: user.is_admin })
           render json: user_token, status: 201
         else
-          render json: { error: user.errors.full_messages.join(', ') }, status: 422
+          render json: { message: user.errors.full_messages[0] }, status: 422
         end
       else
-        render json: {error: 'Passwords do not match'}, status: 402
+        render json: { message: 'Passwords do not match' }, status: 402
       end
     else
-      render json: {error: "User already exists with email #{params[:user][:email]}"}, status: 422
+      render json: { message: "User already exists with email #{params[:user][:email]}" }, status: 422
     end
   end
 
   def update
     user ||= User.find_by(id: params[:id])
     if user.nil?
-      render json: error: "User not found with ID #{params[:id]}", status: 404
+      render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     elsif user.update(user_params)
       render json: user, status: 200
     else
-      render json:{ error: user.errors.full_messages.join(', ') }, status: 422
+      render json: { message: user.errors.full_messages[0] }, status: 422
     end
   end
 
   def destroy
     user ||= User.find_by(id: params[:id])
     if user.nil?
-      render json: { error: "User not found with ID #{params[:id]}" }, status: 404
+      render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     else
       user.destroy
-      render json: user, status: 204
+      render json: user, message: 'User deleted successfully', status: 204
     end
   end
 
@@ -66,6 +66,6 @@ class UsersController < ApplicationController
   end
 
   def check_user_data
-    render json:{ error: 'No user data provided' }, status: 422 if params[:user].empty?
+    render json: { message: 'No user data provided' }, status: 422 if params[:user].empty?
   end
 end
