@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
                                          id: user.id, avatar: user.avatar, is_admin: user.is_admin })
       render json: user_token, status: :ok
     else
-      render json: 'Invalid email or password', status: :not_found
+      render json: { message: 'Invalid email or password' }, status: :not_found
     end
   end
 
