@@ -9,7 +9,7 @@ class CoursesController < ApplicationController
   def show
     course ||= Course.find_by(id: params[:id])
     if course.nil?
-      render json: { message: "Course not found with ID #{params[:id]}" }, status: 404
+      render json: { error: "Course not found with ID #{params[:id]}" }, status: 404
     else
       render json: course, status: :ok
     end
@@ -18,13 +18,13 @@ class CoursesController < ApplicationController
   def create
     user = course ||= User.find_by(id: course_params[:author_id])
     if user.nil?
-      render json: { message: "User not found with ID #{course_params[:author_id]}" }, status: 404
+      render json: { error: "User not found with ID #{course_params[:author_id]}" }, status: 404
     else
       course = user.courses.build(course_params)
       if course.save
         render json: course, status: 200
       else
-        render json: { message: course.errors.full_messages[0] }, status: 400
+        render json: { error: course.errors.full_messages.join(', ') }, status: 400
       end
     end
   end
@@ -32,15 +32,15 @@ class CoursesController < ApplicationController
   def update
     course = Course.find_by(id: params[:id])
     if course.nil?
-      render json: { message: "Course not found with ID #{params[:id]}" }, status: 404
+      render json: { error: "Course not found with ID #{params[:id]}" }, status: 404
     else
       user ||= User.find_by(id: course_params[:author_id])
       if user.nil?
-        render json: { message: "User not found with ID #{course_params[:author_id]}" }, status: 404
+        render json: { error: "User not found with ID #{course_params[:author_id]}" }, status: 404
       elsif course.update(course_params)
         render json: course, status: 200
       else
-        render json: { message: course.errors.full_messages[0] }, status: 400
+        render json: { error: course.errors.full_messages.join(', ') }, status: 422
       end
     end
   end
@@ -48,11 +48,11 @@ class CoursesController < ApplicationController
   def destroy
     course = Course.find_by(id: params[:id])
     if course.nil?
-      render json: { message: "Course not found with ID #{params[:id]}" }, status: 404
+      render json: { error: "Course not found with ID #{params[:id]}" }, status: 404
     elsif course.destroy
       render json: course, status: 200
     else
-      render json: { message: 'Course could not be deleted' }, status: 400
+      render json: { error: 'Course could not be deleted' }, status: 422
     end
   end
 
@@ -63,6 +63,6 @@ class CoursesController < ApplicationController
   end
 
   def check_course_data
-    render json: { message: 'No course data provided' }, status: 400 if params[:name].nil?
+    render json: { error: 'No course data provided' }, status: 422 if params[:name].nil?
   end
 end

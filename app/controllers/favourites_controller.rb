@@ -5,7 +5,7 @@ class FavouritesController < ApplicationController
   def index
     user ||= User.find_by(id: params[:user_id])
     if user.nil?
-      render json: { message: "User not found with ID #{params[:user_id]}" }, status: 404
+      render json: {error: "User not found with ID #{params[:user_id]}"}, status: 404
     else
       favourites = user.favorite_courses
       render json: favourites, status: 200
@@ -15,22 +15,22 @@ class FavouritesController < ApplicationController
   def create # rubocop:disable Metrics/PerceivedComplexity
     user ||= User.find_by(id: params[:user_id])
     if user.nil?
-      render json: { message: "User not found with ID #{params[:user_id]}" }, status: 404
+      render json: {error: "User not found with ID #{params[:user_id]}"}, status: 404
     else
       favourite = Favourite.find_by(user_id: user.id, course_id: favourite_params[:course_id])
       if favourite.nil?
         favourites = user.favourites.build(favourite_params)
         course = Course.find_by(id: favourite_params[:course_id])
         if course.nil?
-          render json: { message: "Course not found with ID #{favourite_params[:course_id]}" },
+          render json: error: "Course not found with ID #{favourite_params[:course_id]}",
                  status: 404
         elsif favourites.save
           render json: favourites.course, status: 200
         else
-          render json: { message: favourites.errors.full_messages[0] }, status: 500
+          render json: {error: favourites.errors.full_messages.join(', ')}, status: 500
         end
       else
-        render json: { message: 'Favourite already exists' }, status: 500
+        render json: {error: 'Favourite already exists'}, status: 500
       end
     end
   end
@@ -38,7 +38,7 @@ class FavouritesController < ApplicationController
   def destroy
     favourite ||= Favourite.find_by(id: params[:id])
     if favourite.nil?
-      render json: { message: "Favourite not found with ID #{params[:id]}" }, status: 404
+      render json: {error: "Favourite not found with ID #{params[:id]}"}, status: 404
     else
       favourite.destroy
       render json: favourite.course, status: 200
@@ -52,6 +52,6 @@ class FavouritesController < ApplicationController
   end
 
   def check_favourite_data
-    render json: { message: 'No favourite data provided' }, status: 400 if params[:course_id].nil?
+    render json: {error: 'No favourite data provided'}, status: 400 if params[:course_id].nil?
   end
 end
