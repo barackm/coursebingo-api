@@ -52,6 +52,6 @@ class FavouritesController < ApplicationController
   end
 
   def check_favourite_data
-    render json: { message: 'No favourite data provided' }, status: 422 if params[:course_id].nil?
+    render json: { message: 'No favourite data provided' }, status: 400 if params[:course_id].nil?
   end
 end

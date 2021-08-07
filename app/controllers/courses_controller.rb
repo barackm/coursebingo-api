@@ -63,6 +63,6 @@ class CoursesController < ApplicationController
   end
 
   def check_course_data
-    render json: { message: 'No course data provided' }, status: 422 if params[:name].nil?
+    render json: { message: 'No course data provided' }, status: 400 if params[:name].nil?
   end
 end

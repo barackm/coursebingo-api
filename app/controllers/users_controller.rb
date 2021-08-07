@@ -28,13 +28,13 @@ class UsersController < ApplicationController
                                              id: user.id, avatar: user.avatar, is_admin: user.is_admin })
           render json: user_token, status: 201
         else
-          render json: { message: user.errors.full_messages[0] }, status: 422
+          render json: { message: user.errors.full_messages[0] }, status: 400
         end
       else
         render json: { message: 'Passwords do not match' }, status: 402
       end
     else
-      render json: { message: "User already exists with email #{params[:user][:email]}" }, status: 422
+      render json: { message: "User already exists with email #{params[:user][:email]}" }, status: 400
     end
   end
 
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     elsif user.update(user_params)
       render json: user, status: 200
     else
-      render json: { message: user.errors.full_messages[0] }, status: 422
+      render json: { message: user.errors.full_messages[0] }, status: 400
     end
   end
 
@@ -66,6 +66,6 @@ class UsersController < ApplicationController
   end
 
   def check_user_data
-    render json: { message: 'No user data provided' }, status: 422 if params[:user].empty?
+    render json: { message: 'No user data provided' }, status: 400 if params[:user].empty?
   end
 end
