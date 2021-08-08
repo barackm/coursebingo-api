@@ -12,6 +12,8 @@ class JsonWebToken
       decoded = JWT.decode(token, HMAC_SECRET)[0]
       HashWithIndifferentAccess.new decoded
     rescue
+      puts token
+      puts "there was an error decoding the token"
       return nil
     end
   end

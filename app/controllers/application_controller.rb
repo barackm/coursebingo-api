@@ -5,7 +5,6 @@ class ApplicationController < ActionController::API
 
   def authorize_request
     @current_user = AuthorizeApiRequest.new(request.headers).call
-    puts "logging the user #{@current_user.nil?}"
     render json: { message: 'Not Authorized' }, status: 401 unless @current_user
   end
 
