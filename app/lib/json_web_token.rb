@@ -10,6 +10,8 @@ class JsonWebToken
   def self.decode(token)
     begin 
       decoded = JWT.decode(token, HMAC_SECRET)[0]
+      puts "lets see the decoded token"
+      puts decoded
       HashWithIndifferentAccess.new decoded
     rescue
       puts token
