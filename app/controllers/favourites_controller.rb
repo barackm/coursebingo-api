@@ -3,9 +3,9 @@ class FavouritesController < ApplicationController
   before_action :check_favourite_data, only: [:create]
 
   def index
-    user ||= User.find_by(id: params[:user_id])
+    user ||= User.find_by(id: favourite_params[:user_id])
     if user.nil?
-      render json: { message: "User not found with ID #{params[:user_id]}" }, status: 404
+      render json: { message: "User not found with ID #{favourite_params[:user_id]}" }, status: 404
     else
       favourites = user.favorite_courses
       render json: favourites, status: 200
@@ -13,9 +13,9 @@ class FavouritesController < ApplicationController
   end
 
   def create # rubocop:disable Metrics/PerceivedComplexity
-    user ||= User.find_by(id: params[:user_id])
+    user ||= User.find_by(id: favourite_params[:user_id])
     if user.nil?
-      render json: { message: "User not found with ID #{params[:user_id]}" }, status: 404
+      render json: { message: "User not found with ID #{favourite_params[:user_id]}" }, status: 404
     else
       favourite = Favourite.find_by(user_id: user.id, course_id: favourite_params[:course_id])
       if favourite.nil?
@@ -48,10 +48,13 @@ class FavouritesController < ApplicationController
   private
 
   def favourite_params
-    params.require(:favourite).permit(:course_id)
+    params.require(:favourite).permit(:course_id, :user_id)
   end
 
   def check_favourite_data
-    render json: { message: 'No favourite data provided' }, status: 422 if params[:course_id].nil?
+    return unless params[:course_id].nil? || params[:user_id].nil?
+
+    render json: { message: 'No favourite data provided' },
+           status: 422
   end
 end

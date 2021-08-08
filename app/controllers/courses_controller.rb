@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
   before_action :authorize_request, only: %i[create update destroy]
+  before_action :authorize_admin, only: %i[create update destroy]
   before_action :check_course_data, only: %i[create update]
 
   def index
