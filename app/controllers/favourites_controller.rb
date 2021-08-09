@@ -1,11 +1,17 @@
 class FavouritesController < ApplicationController
   before_action :authorize_request
   before_action :check_favourite_data, only: [:create]
+  before_action :authorize_admin, only: :index
 
-  def index
-    user ||= User.find_by(id: favourite_params[:user_id])
+  def index 
+    @favourites = Favourite.all
+    render json: @favourites, status: 200
+  end
+
+  def show
+    user ||= User.find_by(id: params[:id])
     if user.nil?
-      render json: { message: "User not found with ID #{favourite_params[:user_id]}" }, status: 404
+      render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     else
       favourites = user.favorite_courses
       render json: favourites, status: 200

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   scope :api do 
     resources :courses
     resources :sessions, only: :create
-    resources :favourites, only: [:create, :destroy, :index]
+    resources :favourites
     resources :users 
   end
   # Ex:- scope :active, -> {where(:active => true)}
