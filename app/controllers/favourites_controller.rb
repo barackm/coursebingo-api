@@ -46,6 +46,8 @@ class FavouritesController < ApplicationController
     if favourite.nil?
       render json: { message: "Favourite not found with ID #{params[:id]}" }, status: 404
     else
+      puts "trying to distroy the favourite"
+      p favourite
       favourite.destroy
       render json: favourite, status: 200
     end
