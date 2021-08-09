@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
   before_action :check_course_data, only: %i[create update]
 
   def index
-    render json: Course.all, status: :ok
+    render json: Course.all.order('created_at DESC'), status: :ok
   end
 
   def show
