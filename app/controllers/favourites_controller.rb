@@ -4,7 +4,7 @@ class FavouritesController < ApplicationController
   before_action :authorize_admin, only: :index
 
   def index 
-    @favourites = Favourite.all
+    @favourites = Favourite.all.order('created_at DESC')
     render json: @favourites, status: 200
   end
 
@@ -13,7 +13,7 @@ class FavouritesController < ApplicationController
     if user.nil?
       render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     else
-      favourites = user.favourites
+      favourites = user.favourites.order('created_at DESC')
       render json: favourites, status: 200
     end
   end
