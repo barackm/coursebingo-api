@@ -40,6 +40,10 @@ class UsersController < ApplicationController
 
   def update
     user ||= User.find_by(id: params[:id])
+    if user_params[:password].blank? && user_params[:password_confirmation].blank?
+      user_params.delete(:password)
+      user_params.delete(:password_confirmation)
+    end
     if user.nil?
       render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     elsif user.update(user_params)
