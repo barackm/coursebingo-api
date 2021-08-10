@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     user ||= User.find_by(id: params[:id])
     if user.nil?
       render json: { message: "User not found with ID #{params[:id]}" }, status: 404
-    elsif user.update!(user_params)
+    elsif user.update(user_params)
       render json: user, status: 200
     else
       render json: { message: user.errors.full_messages[0] }, status: 422
