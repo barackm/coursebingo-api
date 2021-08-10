@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :check_user_data, only: %i[create update]
 
   def index
-    render json: User.all, status: 200
+    render json: User.all.order('created_at DESC'), status: 200
   end
 
   def show
