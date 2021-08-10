@@ -2,8 +2,8 @@ class User < ApplicationRecord
   before_create :set_user_not_admin
 
   has_secure_password
-  has_many :courses, foreign_key: :author_id
-  has_many :favourites
+  has_many :courses, foreign_key: :author_id, dependent: :destroy
+  has_many :favourites, dependent: :destroy
   has_many :favorite_courses, through: :favourites, source: :course
   validates :first_name, presence: true, length: { minimum: 3, maximum: 250 }
   validates :last_name, presence: true, length: { minimum: 3, maximum: 250 }
