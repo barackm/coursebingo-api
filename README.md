@@ -7,7 +7,7 @@
 
 ## Live demo
 
-You can visit the deployed version of the API [this link](https://coursebingo.herokuapp.com/api/)
+You can visit the deployed version of the API [this link](https://coursebingo.herokuapp.com/api/courses)
 
 ## Built With
 
