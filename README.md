@@ -68,6 +68,13 @@ Clone repository from GitHub to your local drive by following these steps:
 - Install ruby
 - Install ruby on rails
 
+### Tests
+
+- This project includes unit tests and integration tests, to run the tests you will just need to run the following command in the terminal from the root of the project
+  `$ rails db:migrate RAILS_ENV=test`
+  `$ bundle exec rspec`
+
+
 ## Author
 
 👤 **Barack Mukelenga**
