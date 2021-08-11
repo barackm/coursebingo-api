@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       render json: { message: "User not found with ID #{params[:id]}" }, status: 404
     elsif user.update(user_params)
       user_token = JsonWebToken.encode({ first_name: user.first_name, last_name: user.last_name, email: user.email,
-        id: user.id, avatar: user.avatar, is_admin: user.is_admin })
+                                         id: user.id, avatar: user.avatar, is_admin: user.is_admin })
       render json: user_token, status: 200
     else
       render json: { message: user.errors.full_messages[0] }, status: 422

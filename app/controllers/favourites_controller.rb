@@ -3,7 +3,7 @@ class FavouritesController < ApplicationController
   before_action :check_favourite_data, only: [:create]
   before_action :authorize_admin, only: :index
 
-  def index 
+  def index
     @favourites = Favourite.all.order('created_at DESC')
     render json: @favourites, status: 200
   end

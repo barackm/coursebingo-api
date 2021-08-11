@@ -8,11 +8,9 @@ class JsonWebToken
   end
 
   def self.decode(token)
-    begin 
-      decoded = JWT.decode(token, HMAC_SECRET)[0]
-      HashWithIndifferentAccess.new decoded
-    rescue
-      return nil
-    end
+    decoded = JWT.decode(token, HMAC_SECRET)[0]
+    HashWithIndifferentAccess.new decoded
+  rescue StandardError
+    nil
   end
 end
