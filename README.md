@@ -7,7 +7,7 @@
 
 ## Live demo
 
-You can visit the deployed version of the API [this link](https://github.com/barackm/coursebingo-api)
+You can visit the deployed version of the API [this link](https://coursebingo.herokuapp.com/api/)
 
 ## Built With
 
@@ -75,6 +75,7 @@ Clone repository from GitHub to your local drive by following these steps:
 - GitHub: [@barackm](https://github.com/barackm)
 - Twitter: [@BarackMukelenga](https://twitter.com/BarackMukelenga)
 - LinkedIn: [Barack Mukelenga](https://www.linkedin.com/in/baraka-mukelenga/)
+- Portfolio: [Barackm](https://barackm.me)
 
 ## Contributing
 
@@ -87,3 +88,5 @@ Give a ⭐️ if you like this project!
 ## Acknowledgments
 
 - Microverse
+
+Copyright (c) 2021 [Baraka Mukelenga](https://barackm.me)
